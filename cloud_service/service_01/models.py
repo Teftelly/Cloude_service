@@ -20,7 +20,7 @@ class User_History(models.Model):
 		# загрузки и имени файла. 
 		# файл будет сохранен в MEDIA_ROOT / History_Files / YYYY/MM/DD
 
-		upload_to = 'History_Files/% Y/% m/% d/'
+		upload_to = 'History_Files/%Y/%m/%d/'
 	)
 
 class Test_Us_HF(models.Model):
