@@ -1,0 +1,5 @@
+#**Used in dev:**
+   * Python = 3.7.5
+   * pytesseract = 0.3.6
+   * opencv-python = 4.2.0
+   * Pillow = 7.2.0
