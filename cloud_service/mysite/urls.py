@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.conf import settings					# 001
+from django.conf import settings				    	# 001
 from django.conf.urls.static import static				# 001
 
 urlpatterns = [
@@ -24,6 +24,6 @@ urlpatterns = [
 ]
 
 # то, что ниже, взято с https://proglib.io/p/bezopasnaya-zagruzka-izobrazheniy-v-veb-prilozhenii-na-django-2020-05-26
-if settings.DEBUG:							# 001
-    urlpatterns += static(settings.MEDIA_URL,				# 001
-                          document_root=settings.MEDIA_ROOT)		# 001
+if settings.DEBUG:						                    	# 001
+    urlpatterns += static(settings.MEDIA_URL,	    			# 001
+                          document_root=settings.MEDIA_ROOT)	# 001
