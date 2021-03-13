@@ -1,0 +1,11 @@
+<form method="post" >
+    {% csrf_token %}
+</form>
+
+{% if voices %}
+<h3>Ваша история!</h3>
+<img src="{{ voices.History_File.url}}" alt="connect" style="max-height:300px">
+<audio controls>
+    <source src="{{ voices.History_Voice.url }}" type="audio/mpeg">
+</audio>
+{% endif %}
