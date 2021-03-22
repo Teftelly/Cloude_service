@@ -1,6 +1,55 @@
 INFO:root:Opening image: C:\Project_In_BOX\Cloude_service\cloud_service\service_01\Capture.JPG
 INFO:root:Cleare image from junk
-INFO:root:Error! Check input file, it should be here: None
+INFO:root:Try to read russian text from picture
+INFO:root:Error! Check input file, it should be here: [[[231 243 237]
+  [236 243 238]
+  [251 245 246]
+  ...
+  [246 246 246]
+  [248 248 248]
+  [246 246 246]]
+
+ [[246 253 246]
+  [239 243 238]
+  [247 245 245]
+  ...
+  [242 242 242]
+  [246 246 246]
+  [248 248 248]]
+
+ [[248 245 237]
+  [244 243 239]
+  [242 246 247]
+  ...
+  [239 239 239]
+  [243 243 243]
+  [245 245 245]]
+
+ ...
+
+ [[236 236 236]
+  [255 255 255]
+  [243 243 243]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]
+
+ [[253 253 253]
+  [233 233 233]
+  [249 249 249]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]
+
+ [[245 245 245]
+  [245 245 245]
+  [245 245 245]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]]
 INFO:root:Create output file with text
 INFO:root:Trying to write input text from C:\Project_In_BOX\Cloude_service\cloud_service\service_01\Output.txt: сохранить нельзя редактировать
 ERROR:root:Error at symbol �: 
