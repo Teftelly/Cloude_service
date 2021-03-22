@@ -1,4 +1,5 @@
 from .models import User_History
+from . import TEST_RUNNER # добаляем нейронку
 from django.http import Http404
 from django.shortcuts import render
 from .forms import History_File_Image_Voice
@@ -33,7 +34,8 @@ def user_history(request):
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
 			img_obj = form.instance
-			voice_obj = form.instance
+			voice_obj = TEST_RUNNER.Main.I_Do_Somthing(img_obj)
+			#voice_obj = form.instance
 			return render(request, 'New_History.html',  {'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
 	else:
 		form = History_File_Image_Voice()
