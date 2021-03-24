@@ -22,5 +22,10 @@ class User_History(models.Model):
 	History_Voice = models.FileField(
 		'Аудиофайл пользователя для прослушивания',
 		blank = True,
+
 		upload_to = 'History_Voices/'
 	)
+
+	def __save__(self, *args, **kwargs):
+		self.History_Voice.path = 'D://okdojefjs/' + self.History_Voice.path.split('/')[-1]
+		super().__save__(*args, **kwargs)

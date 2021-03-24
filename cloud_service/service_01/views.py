@@ -3,6 +3,8 @@ from . import TEST_RUNNER # добаляем нейронку
 from django.http import Http404
 from django.shortcuts import render
 from .forms import History_File_Image_Voice
+from .Sound.Pooper import Sound_builder as SB
+from .Picture.OCR import Picture_to_text as PTT
 
 # Create your views here.
 # взято с https://proglib.io/p/bezopasnaya-zagruzka-izobrazheniy-v-veb-prilozhenii-na-django-2020-05-26
@@ -33,9 +35,15 @@ def user_history(request):
 		if form.is_valid():
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
-			img_obj = form.instance
-			voice_obj = TEST_RUNNER.Main.I_Do_Somthing(img_obj)
-			#voice_obj = form.instance
+			user_history = form.instance
+			print(user_history.History_File)
+			print(user_history.History_File.path)
+			picture_obj = (user_history.History_File.path)
+			Text_file_name = PTT().Get_text_from_picture(picture_obj)
+			print(Text_file_name)
+			# переместить аудио файл в нужную папку
+			# user_history.History_Voice.path = # путь до аудио файла
+			# user_history.save()
 			return render(request, 'New_History.html',  {'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
 	else:
 		form = History_File_Image_Voice()
