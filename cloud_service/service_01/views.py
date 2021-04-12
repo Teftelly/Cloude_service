@@ -1,16 +1,15 @@
 from .models import User_History
-from . import TEST_RUNNER # показывает, как должно все тянуться
-from .Picture.OCR import Picture_to_text as PTT #
-from .Sound.Pooper import Sound_builder as SB #
-import pathlib #
 from django.http import Http404
 from django.shortcuts import render
 from .forms import History_File_Image_Voice
-
-# Create your views here.
-# взято с https://proglib.io/p/bezopasnaya-zagruzka-izobrazheniy-v-veb-prilozhenii-na-django-2020-05-26
-
+from .Sound.Pooper import Sound_builder as SB
+from .Picture.OCR import Picture_to_text as PTT
+import pathlib
 from django.http import HttpResponse
+from django.core.files.base import File
+import shutil
+import os
+
 
 home_menu = ["Авторизация", "Регистрация"]
 authoriz_menu = ["Главная страница", "Регистрация"]
@@ -43,36 +42,27 @@ def user_history(request):
 		if form.is_valid(): # форма прошла валидацию
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
-			img_obj = form.instance
+			user_history = form.instance
+			picture_obj = (user_history.History_File.path)
+			Text_file_name = PTT().Get_text_from_picture(picture_obj)
+			# переместить аудио файл в нужную папку
+			working_directory = pathlib.Path(__file__).parent.absolute().parent
+			print(working_directory)
 
-
-			# Initialize working directory
-			Working_directory = str(pathlib.Path(__file__).parent.absolute())
-
-        	# Get path to picture loaded by user
-			Path_to_picture = img_obj.History_File.path
-        
-        	# Get text from the picture and write it to the file.
-        	# Return filename where text from the picture.
-			Text_file_name = PTT().Get_text_from_picture(Path_to_picture)
-        
-        	# Get the path to file where text from picture
-			Path_to_text_file = Working_directory +'\\'+ Text_file_name
-        
-        	# Start building PooP
-        	# As output: a path to sound file with generated PooP
-			Sound_file_name = SB().Build_Output_Sound(Working_directory, Path_to_text_file)
-        
-			voice_obj = form.instance
-
-        	# Get the path to file where sound from picture
-			voice_obj = Working_directory +'\\'+ Sound_file_name
+			Sound_file_name = SB().Build_Output_Sound(str(working_directory / 'service_01'), str(working_directory / 'Output.txt'))
+			try:
+				os.remove(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
+			except FileNotFoundError:
+				pass
+			shutil.move(str(working_directory / 'Output_PooP.wav'), str(working_directory/'media'/'History_Voices'/'Output_PooP.wav'))
+			user_history.History_Voice = str(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
+			user_history.save()
+			user_history = User_History.objects.all().last()
+			print('path  ', user_history.History_Voice.path)
+			print('obj  ', user_history.History_Voice.path)
 
 			
-			#voice_obj = form.instance
-			#voice_obj = TEST_RUNNER.Main.I_Do_Somthing(img_obj)
-			
-			return render(request, 'New_History.html',  {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
+			return render(request, 'New_History.html',  {'form': form, 'history': user_history})
 	else:
 		form = History_File_Image_Voice()
 	return render(request, 'New_History.html', {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form})
