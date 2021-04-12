@@ -18,12 +18,12 @@ class Picture_to_text():
             gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
             gray = cv2.medianBlur(gray, 3)
 
-            filename = "{}.png".format(os.getpid())
-            cv2.imwrite(filename, gray)
+            #filename = "{}.png".format(os.getpid())
+            #cv2.imwrite(filename, gray)
             
             custom_config = r'-l rus --psm 6'
             logging.info("Try to read russian text from picture")
-            text_from_file = pytesseract.image_to_string(Image.open(filename), config=custom_config)
+            text_from_file = pytesseract.image_to_string(Image.open(image), config=custom_config)
 
         except:
             logging.info("Error! Check input file, it should be here: {}".format(image))

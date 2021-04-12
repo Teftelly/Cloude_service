@@ -4,8 +4,9 @@ from .models import User_History
 class History_File_Image_Voice(forms.ModelForm):
 	class Meta:
 		model = User_History
-		fields = ('User', 'History_File', 'History_Voice')
-
+		fields = ('User', 'History_File')
+		exclude = ['History_Voice']
+# 'History_Voice'
 #class History_Page_Image_Voice(forms.ModelForm):
 #	class Meta:
 #		model = User_History

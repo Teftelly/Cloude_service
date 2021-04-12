@@ -2,6 +2,7 @@
 import logging
 import wave
 import sys
+import os
 
 class Sound_builder():
 
@@ -13,7 +14,7 @@ class Sound_builder():
 
 		logging.info("Trying to write input text from {}: {}".format(input_file, input_text))
 
-		outfile = "Output_PooP.wav"
+		outfile = "Output_PooP_{}.wav".format(os.getpid())
 		infiles = []
 		data= []
 

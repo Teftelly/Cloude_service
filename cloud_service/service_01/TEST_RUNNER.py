@@ -27,4 +27,4 @@ class Main():
 
         return 'I did it!'
 
-print(Main().I_Do_Somthing())
+#print(Main().I_Do_Somthing())
