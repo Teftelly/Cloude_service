@@ -1,15 +1,15 @@
 from .models import User_History
-from . import TEST_RUNNER # добаляем нейронку
 from django.http import Http404
 from django.shortcuts import render
 from .forms import History_File_Image_Voice
 from .Sound.Pooper import Sound_builder as SB
 from .Picture.OCR import Picture_to_text as PTT
-
-# Create your views here.
-# взято с https://proglib.io/p/bezopasnaya-zagruzka-izobrazheniy-v-veb-prilozhenii-na-django-2020-05-26
-
+import pathlib
 from django.http import HttpResponse
+from django.core.files.base import File
+import shutil
+import os
+
 
 # домашняя страница
 def Poop_home(request):
@@ -36,15 +36,26 @@ def user_history(request):
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
 			user_history = form.instance
-			print(user_history.History_File)
-			print(user_history.History_File.path)
 			picture_obj = (user_history.History_File.path)
 			Text_file_name = PTT().Get_text_from_picture(picture_obj)
-			print(Text_file_name)
 			# переместить аудио файл в нужную папку
-			# user_history.History_Voice.path = # путь до аудио файла
-			# user_history.save()
-			return render(request, 'New_History.html',  {'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
+			working_directory = pathlib.Path(__file__).parent.absolute().parent
+			print(working_directory)
+
+			Sound_file_name = SB().Build_Output_Sound(str(working_directory / 'service_01'), str(working_directory / 'Output.txt'))
+			try:
+				os.remove(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
+			except FileNotFoundError:
+				pass
+			shutil.move(str(working_directory / 'Output_PooP.wav'), str(working_directory/'media'/'History_Voices'/'Output_PooP.wav'))
+			user_history.History_Voice = str(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
+			user_history.save()
+			user_history = User_History.objects.all().last()
+			print('path  ', user_history.History_Voice.path)
+			print('obj  ', user_history.History_Voice.path)
+
+			
+			return render(request, 'New_History.html',  {'form': form, 'history': user_history})
 	else:
 		form = History_File_Image_Voice()
 	return render(request, 'New_History.html', {'form': form})
