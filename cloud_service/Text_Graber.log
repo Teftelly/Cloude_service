@@ -1,0 +1,84 @@
+INFO:root:Opening image: C:\media\History_Files\2021\04\12\Capture_b1cj82S.JPG
+INFO:root:Cleare image from junk
+INFO:root:Try to read russian text from picture
+INFO:root:Error! Check input file, it should be here: [[[231 243 237]
+  [236 243 238]
+  [251 245 246]
+  ...
+  [246 246 246]
+  [248 248 248]
+  [246 246 246]]
+
+ [[246 253 246]
+  [239 243 238]
+  [247 245 245]
+  ...
+  [242 242 242]
+  [246 246 246]
+  [248 248 248]]
+
+ [[248 245 237]
+  [244 243 239]
+  [242 246 247]
+  ...
+  [239 239 239]
+  [243 243 243]
+  [245 245 245]]
+
+ ...
+
+ [[236 236 236]
+  [255 255 255]
+  [243 243 243]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]
+
+ [[253 253 253]
+  [233 233 233]
+  [249 249 249]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]
+
+ [[245 245 245]
+  [245 245 245]
+  [245 245 245]
+  ...
+  [245 245 245]
+  [245 245 245]
+  [245 245 245]]]
+INFO:root:Create output file with text
+INFO:root:Trying to write input text from C:\Project_In_BOX\Cloude_service\cloud_service\service_01\Output.txt: —Å–æ—Ö—Ä–∞–Ω–∏—Ç—å –Ω–µ–ª—å–∑—è —Ä–µ–¥–∞–∫—Ç–∏—Ä–æ–≤–∞—Ç—å
+ERROR:root:Error at symbol Å: 
+ERROR:root:Error at symbol æ: 
+ERROR:root:Error at symbol Ö: 
+ERROR:root:Error at symbol Ä: 
+ERROR:root:Error at symbol ∞: 
+ERROR:root:Error at symbol Ω: 
+ERROR:root:Error at symbol Ç: 
+ERROR:root:Error at symbol å: 
+ERROR:root:Error at symbol Ω: 
+ERROR:root:Error at symbol µ: 
+ERROR:root:Error at symbol ª: 
+ERROR:root:Error at symbol å: 
+ERROR:root:Error at symbol ∑: 
+ERROR:root:Error at symbol è: 
+ERROR:root:Error at symbol Ä: 
+ERROR:root:Error at symbol µ: 
+ERROR:root:Error at symbol ¥: 
+ERROR:root:Error at symbol ∞: 
+ERROR:root:Error at symbol ∫: 
+ERROR:root:Error at symbol Ç: 
+ERROR:root:Error at symbol Ä: 
+ERROR:root:Error at symbol æ: 
+ERROR:root:Error at symbol ≤: 
+ERROR:root:Error at symbol ∞: 
+ERROR:root:Error at symbol Ç: 
+ERROR:root:Error at symbol å: 
+INFO:root:Writing output sound at file: Output_PooP_10980.wav
+INFO:root:Successful writed output sound at file: Output_PooP_10980.wav
+WARNING:django.request:Not Found: /service_01/
+INFO:django.utils.autoreload:C:\Project_In_BOX\Cloude_service\cloud_service\service_01\views.py changed, reloading.

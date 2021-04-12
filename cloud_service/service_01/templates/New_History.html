@@ -1,3 +1,7 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
    {{ form.as_p }}
@@ -11,3 +15,4 @@
     <source src="{{ voice_obj.History_Voice.url }}" type="audio/wav">
   </audio>
 {% endif %}
+{% endblock %}

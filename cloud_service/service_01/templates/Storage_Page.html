@@ -1,0 +1,15 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<ul class="list-articles">
+    <h2>Создайте новую ПУП-историю!</h2>
+    <h2>Хранилище ПУП-историй</h2>
+    {% for p in posts %}
+    <li>
+        <p1 class="link-read-post"><a href="#">ПУП-история № {{p.id}}</a></p1>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

@@ -12,23 +12,28 @@ from .forms import History_File_Image_Voice
 
 from django.http import HttpResponse
 
-
+home_menu = ["Авторизация", "Регистрация"]
+authoriz_menu = ["Главная страница", "Регистрация"]
+registr_menu = ["Главная страница", "Авторизация"]
+history_menu = ["Личный кабинет", "Выход"]
+pers_menu = ["Выход"]
 
 # домашняя страница
 def Poop_home(request):
-    return render(request, 'Home_Page.html')
+    return render(request, 'Home_Page.html', {'menu': home_menu, 'title': "ГЛАВНАЯ СТРАНИЦА"})
 
 # Страница авторизации
 def Poop_authorization(request):
-	return HttpResponse("Здесь будет страница авторизации на сервисе Пуп.")
+	return render(request, 'Authorization_Page.html', {'menu': authoriz_menu, 'title': "АВТОРИЗАЦИЯ"})
 
 # Страница регистрации
 def Poop_registration(request):
-	return HttpResponse("Здесь будет страница регистрации на сервисе Пуп.")
+	return render(request, 'Registration_Page.html', {'menu': registr_menu, 'title': "РЕГИСТРАЦИЯ"})
 
-# Страница хранилища
+# Страница хранилища и личного кабинета
 def Poop_storage(request):
-	return HttpResponse("Здесь будет страница хранилища записей клиента на сервисе Пуп.")
+	posts = User_History.objects.all()
+	return render(request, 'Storage_Page.html', {'posts': posts, 'menu': pers_menu, 'title': "ЛИЧНЫЙ КАБИНЕТ"})
 
 # страница конвертации - создания новой записи
 def user_history(request):
@@ -67,10 +72,10 @@ def user_history(request):
 			#voice_obj = form.instance
 			#voice_obj = TEST_RUNNER.Main.I_Do_Somthing(img_obj)
 			
-			return render(request, 'New_History.html',  {'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
+			return render(request, 'New_History.html',  {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
 	else:
 		form = History_File_Image_Voice()
-	return render(request, 'New_History.html', {'form': form})
+	return render(request, 'New_History.html', {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form})
 
 # Страница просмотра старой записи
 def History(request, user_history_id):
@@ -78,9 +83,5 @@ def History(request, user_history_id):
 			voices = User_History.objects.get(pk=user_history_id)
 		except User_History.DoesNotExist:
 			raise Http404("User History does not exist")
-		return render(request, 'History_Page.html', {'voices': voices})
+		return render(request, 'History_Page.html', {'menu': history_menu, 'title': "АРХИВ ПУП-ИСТОРИЙ",'voices': voices})
 	#return HttpResponse("Здесь будет страница со старой записью клиента на сервисе Пуп.")
-
-# Страница с личными данными клиента
-def Personal_page(request):
-	return HttpResponse("Здесь будет страница с личными данными клиента сервиса Пуп.")

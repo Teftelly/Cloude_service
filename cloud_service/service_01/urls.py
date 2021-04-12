@@ -14,7 +14,5 @@ urlpatterns = [
     # страница с загрузкой и мгновенным отображением пользовательской картинки
     path('generate_new/', views.user_history),
     # Страница просмотра старой записи <int:service_01_user_history_id>
-    path('history/<int:user_history_id>/', views.History),
-    # Страница с личными данными клиента
-    path('personal_page/', views.Personal_page)
+    path('history/<int:user_history_id>/', views.History)
 ]
