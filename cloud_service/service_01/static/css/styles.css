@@ -4,15 +4,15 @@ html, body {
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	color: #444;
+	color: #B6323C;
 }
 
 a {
-	color: #0059b2;
+	color: #B6323C;
 	text-decoration: none;
 }
 a:hover {
-	color: #CC0000;
+	color: #DE3848;
 	text-decoration: underline;
 }
 
@@ -74,10 +74,10 @@ ul.list-articles li {
 .table-page tr {height: 100%;}
 
 .clear {clear: both;}
-
+/* Шапка */
 .header {
-	background: #3F4137;
-	height: 60px;
+	background: #DE3848;
+	height: 30px;
 }
 
 .logo {
@@ -90,24 +90,24 @@ ul.mainmenu {
 	list-style: none;
 	margin: 0;
 	padding: 0;
-	height: 60px;
-	color: #fdc073;
-	font-size: 20px;
+	height: 30px;
+	color: #ffffff;
+	font-size: 14px;
 	overflow: hidden;
 }
 ul.mainmenu li {
-	float: left;
-	margin: 18px 40px 0 30px;
+	float: right;
+	margin: 6px 20px 0 30px;
 }
 ul.mainmenu li.logo {margin: 0;}
-ul.mainmenu li.last {float: right;}
-
+/* Меню в шапке */
 ul.mainmenu li a {
-	color: #fdc073;
+	color: #ffffff;
 	text-decoration: none;
 }
+/* Меню в шапке при наведении */
 ul.mainmenu li a:hover {
-	color: #FDA83D;
+	color: #FFB100;
 }
 
 .panelitems {
@@ -263,7 +263,7 @@ ul.content-table li a:hover {color: #F0711C;}
 
 .content-text {
 	margin: 60px 0 0 30px;
-	color: #000;
+	color: #B6323C;
 	font-size: 20px;
 	font-family: Yandex Sans Display Light;
 }
@@ -352,16 +352,16 @@ ul.lang-list li a:hover {color: #fdc073;}
 	font-family: Sans-serif, Arial, Tahoma;
 	font-style: italic;
 }
-
+/* Подвал */
 #footer {
 	box-sizing: border-box;
 
-	background: #3F4137;
+	background: #DE3848;
 	padding: 5px;
-	color: #aaa;
+	color: #FFFFFF;
 	font-size: 14px;
 	font-family: Verdana, Geneva, Arial, Helvetica;
-	text-align: left;
+	text-align: center;
 	overflow: hidden;
 }
 #footer a {
