@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from django.core.files.base import File
 import shutil
 import os
+from datetime import datetime
 
 
 home_menu = ["Авторизация", "Регистрация"]
@@ -47,19 +48,16 @@ def user_history(request):
 			Text_file_name = PTT().Get_text_from_picture(picture_obj)
 			# переместить аудио файл в нужную папку
 			working_directory = pathlib.Path(__file__).parent.absolute().parent
-			print(working_directory)
 
 			Sound_file_name = SB().Build_Output_Sound(str(working_directory / 'service_01'), str(working_directory / 'Output.txt'))
-			try:
-				os.remove(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
-			except FileNotFoundError:
-				pass
-			shutil.move(str(working_directory / 'Output_PooP.wav'), str(working_directory/'media'/'History_Voices'/'Output_PooP.wav'))
-			user_history.History_Voice = str(working_directory/'media'/'History_Voices'/'Output_PooP.wav')
+			curr_time = datetime.now()
+			new_path = str(working_directory/'media'/'History_Voices'/'Output_PooP_{day}_{minute}_{sec}.wav'\
+				.format(day=curr_time.day, minute=curr_time.minute, sec=curr_time.second))
+			shutil.move(str(working_directory / 'Output_PooP.wav'), new_path)
+			user_history.History_Voice = new_path
 			user_history.save()
-			user_history = User_History.objects.all().last()
-			print('path  ', user_history.History_Voice.path)
-			print('obj  ', user_history.History_Voice.path)
+			# 
+			print(user_history.id)
 
 			
 			return render(request, 'New_History.html',  {'form': form, 'history': user_history})

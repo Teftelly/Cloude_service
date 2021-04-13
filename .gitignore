@@ -3,3 +3,6 @@
 *.png
 *.log
 *.sqlite3
+*.pyc
+*.pyc
+*.log
