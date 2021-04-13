@@ -7,7 +7,7 @@
     <h2>Хранилище ПУП-историй</h2>
     {% for p in posts %}
     <li>
-        <p1 class="link-read-post"><a href="#">ПУП-история № {{p.id}}</a></p1>
+        <p1 class="link-read-post"><a href="{{ p.get_absolute_url }}">ПУП-история № {{p.id}}</a></p1>
     </li>
     {% endfor %}
 </ul>

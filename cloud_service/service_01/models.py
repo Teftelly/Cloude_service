@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.urls import reverse
 
 class User_History(models.Model):
 	User = models.ForeignKey(
@@ -24,3 +25,6 @@ class User_History(models.Model):
 		blank = True,
 		upload_to = 'History_Voices/'
 	)
+
+	def get_absolute_url(self):
+		return reverse('history', kwargs={'user_history_id': self.pk})
