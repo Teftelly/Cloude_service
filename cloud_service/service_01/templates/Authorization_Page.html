@@ -5,4 +5,12 @@
 <p>Содержимое страницы авторизации</p>
 <p><a href="{% url 'storage' %}" class="button">Войти</a></p>
 <p><a href="{% url 'registr' %}" class="button">Перейти на страницу регистрации</a></p>
+<form method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{ form.as_p }}
+	<button type="submit">Авторизоваться</button>
+</form>
+{% if error %}
+	{{ error }}
+{% endif %}
 {% endblock %}
