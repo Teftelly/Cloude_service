@@ -111,3 +111,5 @@ MEDIA_URL='/media/'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGIN_URL='/service_01/authorization/'

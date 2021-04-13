@@ -1,7 +1,7 @@
 from .models import User_History
 from django.http import Http404
-from django.shortcuts import render
-from .forms import History_File_Image_Voice
+from django.shortcuts import render, redirect
+from .forms import History_File_Image_Voice, RegistrationForm, LoginForm
 from .Sound.Pooper import Sound_builder as SB
 from .Picture.OCR import Picture_to_text as PTT
 import pathlib
@@ -10,6 +10,12 @@ from django.core.files.base import File
 import shutil
 import os
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+
+
+
 
 
 home_menu = 	[{'title': "Авторизация",		'url_name': 'author'},
@@ -19,8 +25,8 @@ authoriz_menu = [{'title': "Главная страница",	'url_name': 'home'
 registr_menu =	[{'title': "Главная страница",	'url_name': 'home'},
 				 {'title': "Авторизация",		'url_name': 'author'}]
 history_menu =	[{'title': "Личный кабинет",	'url_name': 'storage'},
-				{'title': "Выход", 'url_name': 'home'}]
-pers_menu =		[{'title': "Выход", 'url_name': 'home'}]
+				{'title': "Выход", 'url_name': 'logout'}]
+pers_menu =		[{'title': "Выход", 'url_name': 'logout'}]
 
 # домашняя страница
 def Poop_home(request):
@@ -30,25 +36,69 @@ def Poop_home(request):
 	}
 	return render(request, 'Home_Page.html', context=context)
 
+
 # Страница авторизации
 def Poop_authorization(request):
+	errors = None
+	if request.method == 'POST':
+		username = request.POST['username']
+		password = request.POST['password']
+		print(1)
+		user = authenticate(request, username=username, password=password)
+		print(2)
+		print(user)
+		print(username)
+		print(password)
+		if user is not None:
+			print(3)
+			login(request, user)
+			print(4)
+			return redirect('/service_01/personal_page/')
+
+		else:
+			errors = 'Неверный логин или пароль'
+
+	form = LoginForm()
 	context = {
 		'menu':		authoriz_menu,
-		'title':	"АВТОРИЗАЦИЯ"
-	}
+		'title':	"АВТОРИЗАЦИЯ",
+		'form': form,
+		'errors': errors,
+		}
 	return render(request, 'Authorization_Page.html', context=context)
 
 # Страница регистрации
 def Poop_registration(request):
+	errors = None
+	if request.method == 'POST':
+		form = RegistrationForm(request.POST)
+
+		if form.is_valid():
+			username = request.POST.get('username', '')
+			password = request.POST.get('password', '')
+			user = User.objects.create_user(username=username, password=password)
+			user.set_password(password)
+			user.save()
+			user.set_password(password)
+			user.save()
+			return redirect('/service_01/authorization/')
+
+		else:
+			errors = form.errors
+
+	form = RegistrationForm()
 	context = {
 		'menu':		registr_menu,
-		'title':	"РЕГИСТРАЦИЯ"
+		'title':	"РЕГИСТРАЦИЯ",
+		'errors': errors,
+		'form': form,
 	}
 	return render(request, 'Registration_Page.html', context=context)
 
 # Страница хранилища и личного кабинета
+@login_required
 def Poop_storage(request):
-	posts = User_History.objects.all()
+	posts = User_History.objects.filter(User=request.user)
 	context = {
 		'posts':	posts,
 		'menu':		pers_menu,
@@ -57,16 +107,19 @@ def Poop_storage(request):
 	return render(request, 'Storage_Page.html', context=context)
 
 # страница конвертации - создания новой записи
+@login_required
 def user_history(request):
 	# Обработка изображений, загруженных пользователем
 	if request.method == 'POST':
 		form = History_File_Image_Voice(request.POST, request.FILES)
 
 		if form.is_valid(): # форма прошла валидацию
-			form.save()
+			
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
 			user_history = form.instance
-			picture_obj = (user_history.History_File.path)
+			user_history.User = request.user
+			user_history.save()
+			picture_obj = user_history.History_File.path
 			Text_file_name = PTT().Get_text_from_picture(picture_obj)
 			# переместить аудио файл в нужную папку
 			Working_directory = pathlib.Path(__file__).parent.absolute().parent
@@ -100,6 +153,7 @@ def user_history(request):
 	})
 
 # Страница просмотра старой записи
+@login_required
 def History(request, user_history_id):
 		try:
 			voices = User_History.objects.get(pk=user_history_id)
@@ -112,3 +166,8 @@ def History(request, user_history_id):
 		}
 		return render(request, 'History_Page.html', context=context)
 	#return HttpResponse("Здесь будет страница со старой записью клиента на сервисе Пуп.")
+
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('/service_01/authorization/')

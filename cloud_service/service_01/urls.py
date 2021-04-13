@@ -14,5 +14,7 @@ urlpatterns = [
     # страница с загрузкой и мгновенным отображением пользовательской картинки
     path('generate_new/', views.user_history, name='new'),
     # Страница просмотра старой записи <int:service_01_user_history_id>
-    path('history/<int:user_history_id>/', views.History, name='history')
+    path('history/<int:user_history_id>/', views.History, name='history'),
+
+    path('logout/', views.logout_view, name='logout'),
 ]
