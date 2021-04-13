@@ -12,34 +12,62 @@ from .forms import History_File_Image_Voice
 
 from django.http import HttpResponse
 
-home_menu = ["Авторизация", "Регистрация"]
-authoriz_menu = ["Главная страница", "Регистрация"]
-registr_menu = ["Главная страница", "Авторизация"]
-history_menu = ["Личный кабинет", "Выход"]
-pers_menu = ["Выход"]
+home_menu = 	[{'title': "Авторизация",		'url_name': 'author'},
+				 {'title': "Регистрация",		'url_name': 'registr'}]
+authoriz_menu = [{'title': "Главная страница",	'url_name': 'home'},
+				 {'title': "Регистрация",		'url_name': 'registr'}]
+registr_menu =	[{'title': "Главная страница",	'url_name': 'home'}, 
+				 {'title': "Авторизация",		'url_name': 'author'}]
+history_menu =	[{'title': "Личный кабинет",	'url_name': 'storage'}, 
+				 "Выход"]
+pers_menu =		["Выход"]
 
 # домашняя страница
 def Poop_home(request):
-    return render(request, 'Home_Page.html', {'menu': home_menu, 'title': "ГЛАВНАЯ СТРАНИЦА"})
+	context = {
+		'menu': home_menu,
+		'title': "ГЛАВНАЯ СТРАНИЦА"
+	}
+	return render(request, 'Home_Page.html', context=context)
 
 # Страница авторизации
 def Poop_authorization(request):
-	return render(request, 'Authorization_Page.html', {'menu': authoriz_menu, 'title': "АВТОРИЗАЦИЯ"})
+	context = {
+		'menu':		authoriz_menu,
+		'title':	"АВТОРИЗАЦИЯ"
+	}
+	return render(request, 'Authorization_Page.html', context=context)
 
 # Страница регистрации
 def Poop_registration(request):
-	return render(request, 'Registration_Page.html', {'menu': registr_menu, 'title': "РЕГИСТРАЦИЯ"})
+	context = {
+		'menu':		registr_menu,
+		'title':	"РЕГИСТРАЦИЯ"
+	}
+	return render(request, 'Registration_Page.html', context=context)
 
 # Страница хранилища и личного кабинета
 def Poop_storage(request):
 	posts = User_History.objects.all()
-	return render(request, 'Storage_Page.html', {'posts': posts, 'menu': pers_menu, 'title': "ЛИЧНЫЙ КАБИНЕТ"})
+	context = {
+		'posts':	posts,
+		'menu':		pers_menu,
+		'title':	"ЛИЧНЫЙ КАБИНЕТ"
+	}
+	return render(request, 'Storage_Page.html', context=context)
 
 # страница конвертации - создания новой записи
 def user_history(request):
 	# Обработка изображений, загруженных пользователем
 	if request.method == 'POST':
 		form = History_File_Image_Voice(request.POST, request.FILES)
+		context1 = {
+			'menu':			history_menu, 
+			'title':		"НОВАЯ ПУП-ИСТОРИЯ", 
+			'form':			form, 
+			'img_obj':		img_obj,
+			'voice_obj':	voice_obj
+		}
 		if form.is_valid(): # форма прошла валидацию
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
@@ -71,11 +99,18 @@ def user_history(request):
 			
 			#voice_obj = form.instance
 			#voice_obj = TEST_RUNNER.Main.I_Do_Somthing(img_obj)
-			
-			return render(request, 'New_History.html',  {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form, 'img_obj': img_obj, 'voice_obj':voice_obj})
+			# Словарь1
+
+			return render(request, 'New_History.html',  context=context1)
 	else:
+		# Словарь2
+		context2 = {
+			'menu':		history_menu,
+			'title':	"НОВАЯ ПУП-ИСТОРИЯ",
+			'form':		form
+		}
 		form = History_File_Image_Voice()
-	return render(request, 'New_History.html', {'menu': history_menu, 'title': "НОВАЯ ПУП-ИСТОРИЯ", 'form': form})
+	return render(request, 'New_History.html', context=context2)
 
 # Страница просмотра старой записи
 def History(request, user_history_id):
@@ -83,5 +118,10 @@ def History(request, user_history_id):
 			voices = User_History.objects.get(pk=user_history_id)
 		except User_History.DoesNotExist:
 			raise Http404("User History does not exist")
-		return render(request, 'History_Page.html', {'menu': history_menu, 'title': "АРХИВ ПУП-ИСТОРИЙ",'voices': voices})
+		context = {
+			'menu':		history_menu,
+			'title':	"АРХИВ ПУП-ИСТОРИЙ",
+			'voices':	voices
+		}
+		return render(request, 'History_Page.html', context=context)
 	#return HttpResponse("Здесь будет страница со старой записью клиента на сервисе Пуп.")
