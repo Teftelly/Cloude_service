@@ -3,6 +3,7 @@ import pytesseract
 import logging
 import cv2
 import os
+import pathlib
 
 class Picture_to_text():
 
@@ -19,13 +20,17 @@ class Picture_to_text():
             gray = cv2.medianBlur(gray, 3)
 
             filename = "{}.png".format(os.getpid())
+            print(filename)
+            # print(str(pathlib.Path(__file__).parent.absolute()))
+
             cv2.imwrite(filename, gray)
             
             custom_config = r'-l rus --psm 6'
             logging.info("Try to read russian text from picture")
             text_from_file = pytesseract.image_to_string(Image.open(filename), config=custom_config)
 
-        except:
+        except Exception as e:
+            print(e)
             logging.info("Error! Check input file, it should be here: {}".format(image))
             text_from_file = "Кажеться ты обосрался"
 

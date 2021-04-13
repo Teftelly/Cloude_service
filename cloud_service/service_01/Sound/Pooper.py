@@ -14,7 +14,7 @@ class Sound_builder():
 
 		logging.info("Trying to write input text from {}: {}".format(input_file, input_text))
 
-		outfile = "Output_PooP_{}.wav".format(os.getpid())
+		outfile = "Output_PooP.wav"
 		infiles = []
 		data= []
 

@@ -1,16 +1,16 @@
 from .models import User_History
-from . import TEST_RUNNER # показывает, как должно все тянуться
-from .Picture.OCR import Picture_to_text as PTT #
-from .Sound.Pooper import Sound_builder as SB #
-import pathlib #
 from django.http import Http404
 from django.shortcuts import render
 from .forms import History_File_Image_Voice
-
-# Create your views here.
-# взято с https://proglib.io/p/bezopasnaya-zagruzka-izobrazheniy-v-veb-prilozhenii-na-django-2020-05-26
-
+from .Sound.Pooper import Sound_builder as SB
+from .Picture.OCR import Picture_to_text as PTT
+import pathlib
 from django.http import HttpResponse
+from django.core.files.base import File
+import shutil
+import os
+from datetime import datetime
+
 
 home_menu = 	[{'title': "Авторизация",		'url_name': 'author'},
 				 {'title': "Регистрация",		'url_name': 'registr'}]
@@ -71,11 +71,21 @@ def user_history(request):
 		if form.is_valid(): # форма прошла валидацию
 			form.save()
 			# Получить текущий экземпляр объекта для отображения в шаблоне 
-			img_obj = form.instance
+			user_history = form.instance
+			picture_obj = (user_history.History_File.path)
+			Text_file_name = PTT().Get_text_from_picture(picture_obj)
+			# переместить аудио файл в нужную папку
+			working_directory = pathlib.Path(__file__).parent.absolute().parent
 
-
-			# Initialize working directory
-			Working_directory = str(pathlib.Path(__file__).parent.absolute())
+			Sound_file_name = SB().Build_Output_Sound(str(working_directory / 'service_01'), str(working_directory / 'Output.txt'))
+			curr_time = datetime.now()
+			new_path = str(working_directory/'media'/'History_Voices'/'Output_PooP_{day}_{minute}_{sec}.wav'\
+				.format(day=curr_time.day, minute=curr_time.minute, sec=curr_time.second))
+			shutil.move(str(working_directory / 'Output_PooP.wav'), new_path)
+			user_history.History_Voice = new_path
+			user_history.save()
+			# 
+			print(user_history.id)
 
         	# Get path to picture loaded by user
 			Path_to_picture = img_obj.History_File.path
@@ -102,6 +112,7 @@ def user_history(request):
 			# Словарь1
 
 			return render(request, 'New_History.html',  context=context1)
+
 	else:
 		# Словарь2
 		context2 = {
