@@ -2,10 +2,10 @@
 
 {% block content %}
 <h1>{{title}}</h1>
+<h2>Создайте новую ПУП-историю!</h2>
+<p><a href="{% url 'new' %}" class="button" style="padding: 10px 113px">Создать</a></p>
+<h2>Хранилище ПУП-историй</h2>
 <ul class="list-articles">
-    <h2>Создайте новую ПУП-историю!</h2>
-    <p><a href="{% url 'new' %}" class="button">Создать</a></p>
-    <h2>Хранилище ПУП-историй</h2>
     {% for p in posts %}
     <li>
         <p1 class="link-read-post"><a href="{{ p.get_absolute_url }}">ПУП-история № {{p.id}}</a></p1>

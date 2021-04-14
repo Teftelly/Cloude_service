@@ -2,14 +2,14 @@
 
 {% block content %}
 <h1>{{title}}</h1>
-<p>Содержимое страницы авторизации</p>
-<p><a href="{% url 'storage' %}" class="button">Войти</a></p>
-<p><a href="{% url 'registr' %}" class="button">Перейти на страницу регистрации</a></p>
+<h2>Авторизация на сервисе ПУП</h2>
+
 <form method="POST" enctype="multipart/form-data">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<button type="submit">Авторизоваться</button>
+	<button type="submit" class="button">Авторизоваться</button>
 </form>
+<p><a href="{% url 'registr' %}" >Перейти на страницу регистрации</a></p>
 {% if error %}
 	{{ error }}
 {% endif %}

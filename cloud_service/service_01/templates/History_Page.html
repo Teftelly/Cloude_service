@@ -7,10 +7,10 @@
 </form>
 
 {% if voices %}
-<h3>Ваша история!</h3>
-<img src="{{ voices.History_File.url}}" alt="connect" style="max-height:300px">
-<audio controls>
+<h2>Старая ПУП-история</h2>
+<p><img src="{{ voices.History_File.url}}" alt="connect" style="max-height:400px"></p>
+<p><audio controls>
     <source src="{{ voices.History_Voice.url }}" type="audio/mpeg">
-</audio>
+</audio></p>
 {% endif %}
 {% endblock %}

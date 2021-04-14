@@ -2,17 +2,28 @@
 
 {% block content %}
 <h1>{{title}}</h1>
+<h2>Создайте навую ПУП-историю!</h2>
+<h3>Чтобы создать новую ПУП-историю загрузите на ПУП-сервис
+  изображение с кириллическим печатным текстом используя 
+  кноку "Загрузить".</h3>
+<h3>Текст не должен быть мелким или 
+  сливающимся с фоном.</h3>
+<h3>Затем нажмите кнопку "Содать", чтобы
+  получить аудиофайл с озвученным текстом.</h3>
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  <label for="id_History_File" class="custom-file-upload" >Загрузить</label>
    {{ form.as_p }}
-  <button type="submit">Загрузить</button>
+  </label>
+  <input type="file" name="History_File" accept="image/*" id="id_History_File"/>
+  <button type="submit" class="button">Создать</button>
 </form>
 
 {% if img_obj %}
-  <h3>{{history.User.username}}, Ваше изображение успешно загружено и озвучено!</h3>
-  <img src="{{ img_obj.History_File.url }}" alt="connect" style="max-height:300px">
-  <audio controls>
+  <h3 style="margin: 21px 0;">Создана новая ПУП-история!</h3>
+  <p><img src="{{ img_obj.History_File.url }}" alt="connect" style="max-height:300px"></p>
+<p><audio controls>
     <source src="{{ voice_obj.History_Voice.url }}" type="audio/mpeg">
-  </audio>
+  </audio></p>
 {% endif %}
 {% endblock %}

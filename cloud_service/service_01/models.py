@@ -8,7 +8,7 @@ class User_History(models.Model):
 		on_delete = models.CASCADE
 	)
 	History_File = models.ImageField(
-		'Изображение пользователя для обработки',
+		'Изображение для чтения текста',
 
 		# If True, the field is allowed to be blank. Default is False.
 
